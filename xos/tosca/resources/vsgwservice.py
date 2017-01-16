@@ -1,15 +1,6 @@
-import os
-import pdb
-import sys
-import tempfile
-sys.path.append("/opt/tosca")
-from translator.toscalib.tosca_template import ToscaTemplate
-import pdb
-
-from core.models import Service,User,CoarseTenant
-from services.vsgwservice.models import VSGWService
-
+from services.vsgw.models import VSGWService
 from xosresource import XOSResource
+from service import XOSService
 
 class XOSVSGWService(XOSResource):
     provides = "tosca.nodes.VSGWService"

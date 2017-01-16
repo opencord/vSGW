@@ -7,7 +7,7 @@ imports:
 
 topology_template:
   node_templates:
-    VSGWservice:
+    servicecontroller#vsgw:
       type: tosca.nodes.ServiceController
       properties:
           base_url: file:///opt/xos_services/vSGW/xos/
@@ -15,12 +15,13 @@ topology_template:
           # base_url is non-null.
           models: models.py
           admin: admin.py
+          admin_template: templates/VSGWAdmin.html
           synchronizer: synchronizer/manifest
           synchronizer_run: vsgw-synchronizer.py
-          tosca_custom_types: vsgw.yaml
-          tosca_resource: tosca/resources/vsgwservice.py, tosca/resources/vsgwtenant.py
-          rest_service: api/service/vsgwservice.py
-          rest_tenant: api/tenant/vsgwtenant.py
-          private_key: file:///opt/xos/key_import/vsgw_rsa
-          public_key: file:///opt/xos/key_import/vsgw_rsa.pub
+          #tosca_custom_types: vsgw.yaml
+          tosca_resource: tosca/resources/vsgwtenant.py, tosca/resources/vsgwservice.py
+          #rest_service: api/service/vsgwservice.py
+          #rest_tenant: api/tenant/vsgwtenant.py
+          private_key: file:///opt/xos/key_import/vSGW_rsa
+          public_key: file:///opt/xos/key_import/vSGW_rsa.pub
 

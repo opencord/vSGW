@@ -1,17 +1,8 @@
-import importlib
-import os
-import pdb
-import sys
-import tempfile
-sys.path.append("/opt/tosca")
-from translator.toscalib.tosca_template import ToscaTemplate
-from core.models import Tenant, Service
-from services.vsgwservice.models import *
-
+from services.vsgw.models import *
 from xosresource import XOSResource
 
 class XOSVSGWTenant(XOSResource):
-    provides = "tosca.nodes.ExampleTenant"
+    provides = "tosca.nodes.VSGWTenant"
     xos_model = VSGWTenant
     name_field = "service_specific_id"
     copyin_props = ("tenant_message",)
@@ -20,9 +11,9 @@ class XOSVSGWTenant(XOSResource):
         args = super(XOSVSGWTenant, self).get_xos_args()
 
         # ExampleTenant must always have a provider_service
-        provider_name = self.get_requirement("tosca.relationships.TenantOfService", throw_exception=True)
+        provider_name = self.get_requirement("tosca.relationships.MemberOfService", throw_exception=throw_exception)
         if provider_name:
-            args["provider_service"] = self.get_xos_object(Service, throw_exception=True, name=provider_name)
+            args["provider_service"] = self.get_xos_object(VSGWService, throw_exception=throw_exception, name=provider_name)
 
         return args
 

@@ -12,13 +12,17 @@ nova_enabled=True
 
 # Sets options for the synchronizer
 [observer]
-name=vsgwservice
-dependency_graph=/opt/xos/synchronizers/vsgwservice/model-deps
-steps_dir=/opt/xos/synchronizers/vsgwservice/steps
-sys_dir=/opt/xos/synchronizers/vsgwservice/sys
+name=vsgw
+dependency_graph=/opt/xos/synchronizers/vsgw/model-deps
+steps_dir=/opt/xos/synchronizers/vsgw/steps
+sys_dir=/opt/xos/synchronizers/vsgw/sys
 logfile=/var/log/xos_backend.log
 pretend=False
 backoff_disabled=True
 save_ansible_output=True
-proxy_ssh=False
-
+proxy_ssh=True
+proxy_ssh_key=/root/setup/id_rsa
+proxy_ssh_user=root
+enable_watchers=True
+[networking]
+use_vtn=True

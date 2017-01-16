@@ -14,7 +14,7 @@ class VSGWServiceForm(forms.ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(VSgwServiceForm, self).__init__(*args, **kwargs)
+        super(VSGWServiceForm, self).__init__(*args, **kwargs)
 
         if self.instance:
             self.fields['service_message'].initial = self.instance.service_message
@@ -28,7 +28,7 @@ class VSGWServiceAdmin(ReadOnlyAwareAdmin):
     model = VSGWService
     verbose_name = SERVICE_NAME_VERBOSE
     verbose_name_plural = SERVICE_NAME_VERBOSE_PLURAL
-    form = VSgwServiceForm
+    form = VSGWServiceForm
     inlines = [SliceInline]
 
     list_display = ('backend_status_icon', 'name', 'service_message', 'enabled')
@@ -68,7 +68,7 @@ class VSGWTenantForm(forms.ModelForm):
     creator = forms.ModelChoiceField(queryset=User.objects.all())
 
     def __init__(self, *args, **kwargs):
-        super(ExampleTenantForm, self).__init__(*args, **kwargs)
+        super(VSGWTenantForm, self).__init__(*args, **kwargs)
 
         self.fields['kind'].widget.attrs['readonly'] = True
         self.fields['kind'].initial = SERVICE_NAME
