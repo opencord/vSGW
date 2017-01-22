@@ -1,0 +1,6 @@
+model-deps
+manifest
+vsgw-synchronizer.py
+vsgw_config
+steps/sync_vsgw.py
+steps/sync_vsgw.yaml
