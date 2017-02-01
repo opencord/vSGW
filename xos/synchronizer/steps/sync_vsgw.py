@@ -36,5 +36,6 @@ class SyncVSGWTenant(SyncInstanceUsingAnsible):
     def get_extra_attributes(self, o):
         fields = {}
         fields['tenant_message'] = o.tenant_message
+        fields['image_name'] = o.image_name
         return fields
 
