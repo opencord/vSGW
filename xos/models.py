@@ -1,6 +1,6 @@
 # models.py -  vSGW Models
 
-from core.models import Service, TenantWithContainer
+from core.models import Service, TenantWithContainer, Image
 from django.db import models, transaction
 
 MCORD_KIND = 'EPC'
@@ -28,6 +28,7 @@ class VSGWTenant(TenantWithContainer):
         verbose_name = TENANT_NAME_VERBOSE
 
     tenant_message = models.CharField(max_length=254, help_text="Tenant Message to Display")
+    image_name = models.CharField(max_length=254, help_text="Name of VM image")
 
     def __init__(self, *args, **kwargs):
         vsgw_service = VSGWService.get_service_objects().all()
@@ -42,6 +43,14 @@ class VSGWTenant(TenantWithContainer):
     def delete(self, *args, **kwargs):
         self.cleanup_container()
         super(VSGWTenant, self).delete(*args, **kwargs)
+
+    @property
+    def image(self):
+        img = self.image_name.strip()
+        if img.lower() != "default":
+            return Image.objects.get(name=img)
+        else: 
+            return super(VSGWTenant, self).image
 
 def model_policy_vsgwtenant(pk):
     with transaction.atomic():
