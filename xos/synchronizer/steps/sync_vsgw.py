@@ -1,8 +1,9 @@
 import os
 import sys
 from django.db.models import Q, F
-from services.vsgw.models import VSGWService, VSGWTenant
-from synchronizers.base.SyncInstanceUsingAnsible import SyncInstanceUsingAnsible
+# from services.vsgw.models import VSGWService, VSGWTenant
+from synchronizers.new_base.modelaccessor import *
+from synchronizers.new_base.SyncInstanceUsingAnsible import SyncInstanceUsingAnsible
 
 parentdir = os.path.join(os.path.dirname(__file__), "..")
 sys.path.insert(0, parentdir)

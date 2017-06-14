@@ -1,0 +1,9 @@
+# Sets options for the synchronizer
+[observer]
+name=vsgw
+dependency_graph=/opt/xos/synchronizers/vsgw/model-deps
+steps_dir=/opt/xos/synchronizers/vsgw/steps
+sys_dir=/opt/xos/synchronizers/vsgw/sys
+accessor:
+  username: xosadmin@opencord.org
+  password: "@/opt/xos/services/vmme/credentials/xosadmin@opencord.org"
