@@ -5,7 +5,8 @@ from core.middleware import get_request
 from core.models import User
 from django import forms
 from django.contrib import admin
-from services.vsgw.models import *
+# from services.vsgw.models import *
+from synchronizers.new_base.modelaccessor import *
 
 class VSGWServiceForm(forms.ModelForm):
 

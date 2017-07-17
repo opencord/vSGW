@@ -13,12 +13,12 @@ topology_template:
           base_url: file:///opt/xos_services/vsgw/xos/
           # The following will concatenate with base_url automatically, if
           # base_url is non-null.
-          models: models.py
+          xproto: ./
           admin: admin.py
           admin_template: templates/VSGWAdmin.html
           synchronizer: synchronizer/manifest
           synchronizer_run: vsgw-synchronizer.py
-          #tosca_custom_types: vsgw.yaml
+          tosca_custom_types: tosca/custom_types/vsgw.yaml
           tosca_resource: tosca/resources/vsgwtenant.py, tosca/resources/vsgwservice.py
           #rest_service: api/service/vsgwservice.py
           #rest_tenant: api/tenant/vsgwtenant.py

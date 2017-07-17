@@ -1,5 +1,6 @@
-from services.vsgw.models import VSGWService
+# from services.vsgw.models import VSGWService
 from xosresource import XOSResource
+from synchronizers.new_base.modelaccessor import *
 from service import XOSService
 
 class XOSVSGWService(XOSResource):

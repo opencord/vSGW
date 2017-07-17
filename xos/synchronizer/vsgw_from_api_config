@@ -4,6 +4,17 @@ name=vsgw
 dependency_graph=/opt/xos/synchronizers/vsgw/model-deps
 steps_dir=/opt/xos/synchronizers/vsgw/steps
 sys_dir=/opt/xos/synchronizers/vsgw/sys
-accessor:
-  username: xosadmin@opencord.org
-  password: "@/opt/xos/services/vmme/credentials/xosadmin@opencord.org"
+#logfile=/var/log/xos_backend.log
+log_file=console
+log_level=debug
+pretend=False
+backoff_disabled=True
+save_ansible_output=True
+proxy_ssh=True
+proxy_ssh_key=/opt/cord_profile/node_key
+proxy_ssh_user=root
+accessor_kind=api
+accessor_password=@/opt/xos/services/vsgw/credentials/xosadmin@opencord.org
+
+[networking]
+use_vtn=True
