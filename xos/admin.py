@@ -27,8 +27,8 @@ class VSGWServiceForm(forms.ModelForm):
 class VSGWServiceAdmin(ReadOnlyAwareAdmin):
 
     model = VSGWService
-    verbose_name = SERVICE_NAME_VERBOSE
-    verbose_name_plural = SERVICE_NAME_VERBOSE_PLURAL
+    verbose_name = "VSGW Service"
+    verbose_name_plural = "VSGW Service"
     form = VSGWServiceForm
     inlines = [SliceInline]
 
@@ -95,8 +95,8 @@ class VSGWTenantForm(forms.ModelForm):
 
 class VSGWTenantAdmin(ReadOnlyAwareAdmin):
 
-    verbose_name = TENANT_NAME_VERBOSE
-    verbose_name_plural = TENANT_NAME_VERBOSE_PLURAL
+    verbose_name = "VSGW Component"
+    verbose_name_plural = "VSGW Component"
 
     list_display = ('id', 'backend_status_icon', 'instance', 'tenant_message', 'image_name')
     list_display_links = ('backend_status_icon', 'instance', 'tenant_message', 'id', 'image_name')
