@@ -1,5 +1,7 @@
 tosca_definitions_version: tosca_simple_yaml_1_0
 
+# compile this with "m4 vbbu.m4 > vsgw.yaml"
+
 # include macros
 # Note: Tosca derived_from isn't working the way I think it should, it's not
 #    inheriting from the parent template. Until we get that figured out, use
@@ -11,11 +13,18 @@ tosca_definitions_version: tosca_simple_yaml_1_0
 
 # Subscriber
 
+
+
+
+# end m4 macros
+
+
+
 node_types:
     tosca.nodes.VSGWService:
         derived_from: tosca.nodes.Root
         description: >
-            vSGW Service
+            VSGW Service
         capabilities:
             scalable:
                 type: tosca.capabilities.Scalable
@@ -71,12 +80,12 @@ node_types:
                 description: Version number of Service.
             service_message:
                 type: string
-                required: false
+                required: true
 
     tosca.nodes.VSGWTenant:
         derived_from: tosca.nodes.Root
         description: >
-            A Tenant of the vsgw service
+            VSGW Tenant
         properties:
             kind:
                 type: string
@@ -88,5 +97,4 @@ node_types:
                 description: Service specific ID opaque to XOS but meaningful to service
             tenant_message:
                 type: string
-                required: false
-
+                required: true
