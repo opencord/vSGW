@@ -2,11 +2,11 @@ option name = "vsgw";
 option app_label = "vsgw";
 option verbose_name = "vSGW Service";
 option kind = "vEPC";
+option legacy = "True";
 
 message VSGWService (Service){
     required string service_message = 1 [help_text = "Service Message to Display", max_length = 254, null = False, db_index = False, blank = False];
 }
-
 
 message VSGWTenant (TenantWithContainer){
      option name = "vsgwtenant";

@@ -14,10 +14,3 @@ from xos.config import Config
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-MCORD_KIND = 'RAN'
-
-SERVICE_NAME = 'vsgw'
-SERVICE_NAME_VERBOSE = 'Virtual SGW Service'
-SERVICE_NAME_VERBOSE_PLURAL = 'Virtual SGW Services'
-TENANT_NAME_VERBOSE = 'Virtual SGW Tenant'
-TENANT_NAME_VERBOSE_PLURAL = 'Virtual SGW Tenants'
