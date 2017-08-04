@@ -80,7 +80,7 @@ node_types:
                 description: Version number of Service.
             service_message:
                 type: string
-                required: true
+                required: false
 
     tosca.nodes.VSGWTenant:
         derived_from: tosca.nodes.Root
@@ -97,4 +97,4 @@ node_types:
                 description: Service specific ID opaque to XOS but meaningful to service
             tenant_message:
                 type: string
-                required: true
+                required: false

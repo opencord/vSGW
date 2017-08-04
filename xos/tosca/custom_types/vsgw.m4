@@ -17,7 +17,7 @@ node_types:
             xos_base_service_props
             service_message:
                 type: string
-                required: true
+                required: false
 
     tosca.nodes.VSGWTenant:
         derived_from: tosca.nodes.Root
@@ -27,4 +27,4 @@ node_types:
             xos_base_tenant_props
             tenant_message:
                 type: string
-                required: true
+                required: false
