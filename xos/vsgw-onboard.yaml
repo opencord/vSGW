@@ -14,14 +14,10 @@ topology_template:
           # The following will concatenate with base_url automatically, if
           # base_url is non-null.
           xproto: ./
-          admin: admin.py
-          admin_template: templates/VSGWAdmin.html
           synchronizer: synchronizer/manifest
           synchronizer_run: vsgw-synchronizer.py
           tosca_custom_types: tosca/custom_types/vsgw.yaml
           tosca_resource: tosca/resources/vsgwtenant.py, tosca/resources/vsgwservice.py
-          #rest_service: api/service/vsgwservice.py
-          #rest_tenant: api/tenant/vsgwtenant.py
           private_key: file:///opt/xos/key_import/mcord_rsa
           public_key: file:///opt/xos/key_import/mcord_rsa.pub
 

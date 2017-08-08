@@ -1,0 +1,11 @@
+---
+- hosts: {{ instance_name }}
+  connection: ssh
+  user: ubuntu
+  become: yes
+  gather_facts: no
+  tasks:
+
+  vars:
+    - tenant_message: "{{ tenant_message }}"
+  

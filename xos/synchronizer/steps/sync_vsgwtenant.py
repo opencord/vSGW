@@ -1,7 +1,6 @@
 import os
 import sys
 from django.db.models import Q, F
-# from services.vsgw.models import VSGWService, VSGWTenant
 from synchronizers.new_base.modelaccessor import *
 from synchronizers.new_base.SyncInstanceUsingAnsible import SyncInstanceUsingAnsible
 
@@ -16,9 +15,9 @@ class SyncVSGWTenant(SyncInstanceUsingAnsible):
 
     requested_interval = 0
 
-    template_name = "sync_vsgw.yaml"
+    template_name = "vsgwtenant_playbook.yaml"
 
-    service_key_name = "/opt/xos/synchronizers/vsgw/vsgw_private_key"
+    service_key_name = "/opt/xos/configurations/mcord/mcord_private_key"
 
     def __init__(self, *args, **kwargs):
         super(SyncVSGWTenant, self).__init__(*args, **kwargs)
@@ -37,6 +36,5 @@ class SyncVSGWTenant(SyncInstanceUsingAnsible):
     def get_extra_attributes(self, o):
         fields = {}
         fields['tenant_message'] = o.tenant_message
-        fields['image_name'] = o.image_name
         return fields
 

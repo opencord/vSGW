@@ -78,9 +78,6 @@ node_types:
                 type: string
                 required: false
                 description: Version number of Service.
-            service_message:
-                type: string
-                required: false
 
     tosca.nodes.VSGWTenant:
         derived_from: tosca.nodes.Root
