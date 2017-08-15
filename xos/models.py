@@ -22,6 +22,11 @@ class VSGWService(VSGWService_decl):
    class Meta:
         proxy = True 
 
+   def create_tenant(self, **kwargs):
+       t = VSGWTenant(kind="vEPC", provider_service=self, connect_method="na", tenant_message="vsgw tenant in service chain", **kwargs)
+       t.save()
+       return t
+
 class VSGWTenant(VSGWTenant_decl):
    class Meta:
         proxy = True 
@@ -34,6 +39,13 @@ class VSGWTenant(VSGWTenant_decl):
        super(VSGWTenant, self).__init__(*args, **kwargs)
 
    def save(self, *args, **kwargs):
+       if not self.creator:
+           if not getattr(self, "caller", None):
+               raise XOSProgrammingError("VSGWTenant's self.caller was not set")
+           self.creator = self.caller
+           if not self.creator:
+               raise XOSProgrammingError("VSGWTenant's self.creator was not set")
+
        super(VSGWTenant, self).save(*args, **kwargs)
        # This call needs to happen so that an instance is created for this
        # tenant is created in the slice. One instance is created per tenant.
