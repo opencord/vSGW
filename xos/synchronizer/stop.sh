@@ -1,2 +1,2 @@
 # Kill the observer
-pkill -9 -f vsgw-synchronizer.py
+pkill -9 -f vsgwc-synchronizer.py

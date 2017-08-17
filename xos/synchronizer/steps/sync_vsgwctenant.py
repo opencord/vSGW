@@ -7,29 +7,29 @@ from synchronizers.new_base.SyncInstanceUsingAnsible import SyncInstanceUsingAns
 parentdir = os.path.join(os.path.dirname(__file__), "..")
 sys.path.insert(0, parentdir)
 
-class SyncVSGWTenant(SyncInstanceUsingAnsible):
+class SyncVSGWCTenant(SyncInstanceUsingAnsible):
 
-    provides = [VSGWTenant]
+    provides = [VSGWCTenant]
 
-    observes = VSGWTenant
+    observes = VSGWCTenant
 
     requested_interval = 0
 
-    template_name = "vsgwtenant_playbook.yaml"
+    template_name = "vsgwctenant_playbook.yaml"
 
     service_key_name = "/opt/xos/configurations/mcord/mcord_private_key"
 
     def __init__(self, *args, **kwargs):
-        super(SyncVSGWTenant, self).__init__(*args, **kwargs)
+        super(SyncVSGWCTenant, self).__init__(*args, **kwargs)
 
     def fetch_pending(self, deleted):
 
         if (not deleted):
-            objs = VSGWTenant.get_tenant_objects().filter(
+            objs = VSGWCTenant.get_tenant_objects().filter(
                 Q(enacted__lt=F('updated')) | Q(enacted=None), Q(lazy_blocked=False))
         else:
             # If this is a deletion we get all of the deleted tenants..
-            objs = VSGWTenant.get_deleted_tenant_objects()
+            objs = VSGWCTenant.get_deleted_tenant_objects()
 
         return objs
 

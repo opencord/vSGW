@@ -1,15 +1,15 @@
 from xosresource import XOSResource
 from core.models import Service, Tenant
-from services.vsgw.models import VSGWTenant
+from services.vsgwc.models import VSGWCTenant
 
-class XOSVSGWTenant(XOSResource):
-    provides = "tosca.nodes.VSGWTenant"
-    xos_model = VSGWTenant
+class XOSVSGWCTenant(XOSResource):
+    provides = "tosca.nodes.VSGWCTenant"
+    xos_model = VSGWCTenant
     name_field = "service_specific_id"
     copyin_props = ("tenant_message",)
 
     def get_xos_args(self, throw_exception=True):
-        args = super(XOSVSGWTenant, self).get_xos_args()
+        args = super(XOSVSGWCTenant, self).get_xos_args()
 
         # ExampleTenant must always have a provider_service
         provider_name = self.get_requirement("tosca.relationships.TenantOfService", throw_exception=throw_exception)
@@ -20,9 +20,9 @@ class XOSVSGWTenant(XOSResource):
 
     def get_existing_objs(self):
         args = self.get_xos_args(throw_exception=False)
-        return VSGWTenant.get_tenant_objects().filter(provider_service=args["provider_service"], service_specific_id=args["service_specific_id"])
+        return VSGWCTenant.get_tenant_objects().filter(provider_service=args["provider_service"], service_specific_id=args["service_specific_id"])
         return []
 
     def can_delete(self, obj):
-        return super(XOSVSGWTenant, self).can_delete(obj)
+        return super(XOSVSGWCTenant, self).can_delete(obj)
 

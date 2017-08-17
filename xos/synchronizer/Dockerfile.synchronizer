@@ -1,15 +1,15 @@
-# xosproject/vsgw-synchronizer
+# xosproject/vsgwc-synchronizer
 FROM xosproject/xos-synchronizer-base:candidate
 
-COPY . /opt/xos/synchronizers/vsgw
+COPY . /opt/xos/synchronizers/vsgwc
 
 ENTRYPOINT []
 
-WORKDIR "/opt/xos/synchronizers/vsgw"
+WORKDIR "/opt/xos/synchronizers/vsgwc"
 
 # Label image
 ARG org_label_schema_schema_version=1.0
-ARG org_label_schema_name=vsgw-synchronizer
+ARG org_label_schema_name=vsgwc-synchronizer
 ARG org_label_schema_version=unknown
 ARG org_label_schema_vcs_url=unknown
 ARG org_label_schema_vcs_ref=unknown
@@ -36,4 +36,4 @@ LABEL org.label-schema.schema-version=$org_label_schema_schema_version \
       org.opencord.component.xos.vcs-url=$org_opencord_component_xos_vcs_url \
       org.opencord.component.xos.vcs-ref=$org_opencord_component_xos_vcs_ref
 
-CMD bash -c "cd /opt/xos/synchronizers/vsgw; ./run-from-api.sh"
+CMD bash -c "cd /opt/xos/synchronizers/vsgwc; ./run-from-api.sh"

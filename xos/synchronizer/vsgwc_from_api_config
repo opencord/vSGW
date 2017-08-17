@@ -1,9 +1,9 @@
 # Sets options for the synchronizer
 [observer]
-name=vsgw
-dependency_graph=/opt/xos/synchronizers/vsgw/model-deps
-steps_dir=/opt/xos/synchronizers/vsgw/steps
-sys_dir=/opt/xos/synchronizers/vsgw/sys
+name=vsgwc
+dependency_graph=/opt/xos/synchronizers/vsgwc/model-deps
+steps_dir=/opt/xos/synchronizers/vsgwc/steps
+sys_dir=/opt/xos/synchronizers/vsgwc/sys
 #logfile=/var/log/xos_backend.log
 log_file=console
 log_level=debug
@@ -14,7 +14,7 @@ proxy_ssh=True
 proxy_ssh_key=/opt/cord_profile/node_key
 proxy_ssh_user=root
 accessor_kind=api
-accessor_password=@/opt/xos/services/vsgw/credentials/xosadmin@opencord.org
+accessor_password=@/opt/xos/services/vsgwc/credentials/xosadmin@opencord.org
 
 [networking]
 use_vtn=True
