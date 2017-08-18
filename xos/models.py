@@ -22,7 +22,7 @@ class VSGWCService(VSGWCService_decl):
    class Meta:
         proxy = True 
 
-   def VSGWC_tenant(self, **kwargs):
+   def create_tenant(self, **kwargs):
        t = VSGWCTenant(kind="vEPC", provider_service=self, connect_method="na", tenant_message="vsgwc tenant in service chain", **kwargs)
        t.save()
        return t

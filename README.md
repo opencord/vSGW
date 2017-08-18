@@ -1,4 +1,4 @@
-# Virtual Serving Gateway Service
+# Virtual Serving Gateway -- Control Plane Service
 
 ## Onboarding
 
@@ -6,8 +6,8 @@ To onboard this service in your system, you can add the service to the `mcord.ym
 
 ```
 xos_services:
-  - name: vsgw
-    path: orchestration/xos_services/vsgw
+  - name: vsgwc
+    path: orchestration/xos_services/vsgwc
     keypair: mcord_rsa
     synchronizer: true
 ```

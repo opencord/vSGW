@@ -1,16 +1,16 @@
 option name = "vSGWC";
-option verbose_name = "Virtual Serving Gateway Control Plane";
+option verbose_name = "Virtual Serving Gateway -- Control Plane";
 option app_label = "vsgwc";
 option kind = "vEPC";
 option legacy = "True";
 
 message VSGWCService (Service){
     option name = "VSGWCService";
-    option verbose_name = "Virtual Serving Gateway Control Plane Service";
+    option verbose_name = "Virtual Serving Gateway -- Control Plane Service";
 }
 
 message VSGWCTenant (TenantWithContainer){
      option name = "VSGWCTenant";
-     option verbose_name = "Virtual Serving Gateway Control Plane Tenant";
+     option verbose_name = "Virtual Serving Gateway -- Control Plane Tenant";
      required string tenant_message = 1 [help_text = "Tenant Message to Display", max_length = 254, null = False, db_index = False, blank = False];
 }
