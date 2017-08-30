@@ -15,15 +15,13 @@ from core.models.service import LeastLoadedNodeScheduler
 import traceback
 from xos.exceptions import *
 from xos.config import Config
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 
 class VSGWCService(VSGWCService_decl):
    class Meta:
         proxy = True 
 
    def create_tenant(self, **kwargs):
-       t = VSGWCTenant(kind="vEPC", provider_service=self, connect_method="na", tenant_message="vsgwc tenant in service chain", **kwargs)
+       t = VSGWCTenant(kind="vEPC", provider_service=self, connect_method="na", **kwargs)
        t.save()
        return t
 

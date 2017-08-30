@@ -6,7 +6,7 @@ class XOSVSGWCTenant(XOSResource):
     provides = "tosca.nodes.VSGWCTenant"
     xos_model = VSGWCTenant
     name_field = "service_specific_id"
-    copyin_props = ("tenant_message",)
+    copyin_props = ()
 
     def get_xos_args(self, throw_exception=True):
         args = super(XOSVSGWCTenant, self).get_xos_args()

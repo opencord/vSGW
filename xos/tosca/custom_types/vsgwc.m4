@@ -22,6 +22,3 @@ node_types:
             VSGWC Tenant
         properties:
             xos_base_tenant_props
-            tenant_message:
-                type: string
-                required: false

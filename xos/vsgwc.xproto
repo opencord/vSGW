@@ -12,5 +12,4 @@ message VSGWCService (Service){
 message VSGWCTenant (TenantWithContainer){
      option name = "VSGWCTenant";
      option verbose_name = "Virtual Serving Gateway -- Control Plane Tenant";
-     required string tenant_message = 1 [help_text = "Tenant Message to Display", max_length = 254, null = False, db_index = False, blank = False];
 }
