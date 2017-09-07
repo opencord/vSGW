@@ -17,7 +17,7 @@ topology_template:
           synchronizer: synchronizer/manifest
           synchronizer_run: vsgwc-synchronizer.py
           tosca_custom_types: tosca/custom_types/vsgwc.yaml
-          tosca_resource: tosca/resources/vsgwctenant.py, tosca/resources/vsgwcservice.py
+          tosca_resource: tosca/resources/vsgwctenant.py, tosca/resources/vsgwcservice.py, tosca/resources/vsgwcvendor.py
           private_key: file:///opt/xos/key_import/mcord_rsa
           public_key: file:///opt/xos/key_import/mcord_rsa.pub
 

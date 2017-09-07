@@ -9,7 +9,16 @@ message VSGWCService (Service){
     option verbose_name = "Virtual Serving Gateway -- Control Plane Service";
 }
 
+message VSGWCVendor (PlCoreBase){
+    option name = "VSGWCVendor";
+    option verbose_name = "Virtual Serving Gateway -- Control Plane Vendor";
+    required string name = 1 [help_text = "vendor name", max_length = 32, null = False, db_index = False, blank = False]; 
+    required manytoone image->Image:+ = 2 [help_text = "select image for this vendor", db_index = True, null = False, blank = False];
+    required manytoone flavor->Flavor:+ = 3 [help_text = "select openstack flavor for vendor image", db_index = True, null = False, blank = False];
+}
+
 message VSGWCTenant (TenantWithContainer){
-     option name = "VSGWCTenant";
-     option verbose_name = "Virtual Serving Gateway -- Control Plane Tenant";
+    option name = "VSGWCTenant";
+    option verbose_name = "Virtual Serving Gateway -- Control Plane Tenant";
+    optional manytoone vsgwc_vendor->VSGWCVendor:vendor_tenants = 1 [help_text = "select vendor of choice, leave blank for slice default", db_index = True, null = True, blank = True];
 }
