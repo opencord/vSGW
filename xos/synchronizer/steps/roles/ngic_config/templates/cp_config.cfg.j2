@@ -1,0 +1,10 @@
+{% set date = ansible_date_time['date'] ~ '_' ~ ansible_date_time['hour'] ~ '_' ~ ansible_date_time['minute'] %}
+NOW={{ date }}
+FILE="logs/cp_{{ date }}.log"
+S11_SGW_IP={{ sgwc_shared_ip }}
+S11_MME_IP={{ mme_shared_ip }}
+S1U_SGW_IP={{ sgwu_shared_ip }}
+IP_POOL_IP=16.0.0.0
+IP_POOL_MASK=255.0.0.0
+APN=apn1
+MEMORY=1024

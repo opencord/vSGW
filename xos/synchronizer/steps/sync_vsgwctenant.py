@@ -21,13 +21,37 @@ class SyncVSGWCTenant(SyncInstanceUsingAnsible):
     def __init__(self, *args, **kwargs):
         super(SyncVSGWCTenant, self).__init__(*args, **kwargs)
 
-    def fetch_pending(self, deleted):
-        if (not deleted):
-            objs = VSGWCTenant.get_tenant_objects().filter(
-                Q(enacted__lt=F('updated')) | Q(enacted=None), Q(lazy_blocked=False))
-        else:
-            # If this is a deletion we get all of the deleted tenants..
-            objs = VSGWCTenant.get_deleted_tenant_objects()
+#    def fetch_pending(self, deleted):
+#        if (not deleted):
+#            objs = VSGWCTenant.get_tenant_objects().filter(
+#                Q(enacted__lt=F('updated')) | Q(enacted=None), Q(lazy_blocked=False))
+#        else:
+#            # If this is a deletion we get all of the deleted tenants..
+#            objs = VSGWCTenant.get_deleted_tenant_objects()
+#
+#        return objs
 
-        return objs
+    # Gets the attributes that are used by the Ansible template but are not
+    # part of the set of default attribtues.
+    def get_extra_attributes(self, o):
+        fields = {}
+        shared_net_id = Network.objects.get(name='shared_network').id
 
+	try:
+            fields['sgwc_shared_ip'] = Port.objects.get(network_id=shared_net_id, instance_id=o.instance_id).ip
+        except Exception:
+            print '{} does not have an instance'.format(o.name)
+
+        try:
+            mme = TenantWithContainer.objects.get(provider_service_id=Service.objects.get(name='vmme').id, subscriber_tenant_id=o.subscriber_tenant_id)
+            fields['mme_shared_ip'] = Port.objects.get(network_id=shared_net_id, instance_id=mme.instance_id).ip
+	except Exception:
+            print '{} does not have a VMME instance'.format(o.subscriber_tenant.name)
+	
+        try:
+            sgwu = TenantWithContainer.objects.get(provider_service_id=Service.objects.get(name='vsgwu').id, subscriber_tenant_id=o.subscriber_tenant_id)
+            fields['sgwu_shared_ip'] = Port.objects.get(network_id=shared_net_id, instance_id=sgwu.instance_id).ip
+        except Exception:
+            print '{} does not have a VSGWU instance'.format(o.subscriber_tenant.name)
+
+        return fields

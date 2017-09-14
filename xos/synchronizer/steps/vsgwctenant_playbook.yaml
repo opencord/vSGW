@@ -1,9 +1,13 @@
 ---
 - hosts: {{ instance_name }}
-  gather_facts: False
+  gather_facts: True
   connection: ssh
   user: ubuntu
   sudo: yes
-  tasks:
   vars:
+    - sgwc_shared_ip: {{ sgwc_shared_ip }}
+    - mme_shared_ip: {{ mme_shared_ip }}
+    - sgwu_shared_ip: {{ sgwu_shared_ip }}
+  roles:
+    - ngic_config
 
