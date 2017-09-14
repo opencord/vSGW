@@ -27,8 +27,6 @@ node_types:
         derived_from: tosca.nodes.Root
         description: >
             VSGWC Vendor
-        capabilities:
-            xos_bas_service_caps
         properties:
             name:
                 type: string
