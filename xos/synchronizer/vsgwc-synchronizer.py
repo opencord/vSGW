@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#!/usr/bin/env python
 
-# Runs the XOS observer using vsgw_config
-export XOS_DIR=/opt/xos
-python vsgw-synchronizer.py  -C $XOS_DIR/synchronizers/vsgw/vsgw_config
+# Runs the standard XOS synchronizer
+
+import importlib
+import os
+import sys
+from xosconfig import Config
+
+config_file = os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/vsgwc_config.yaml')
+
+Config.init(config_file, 'synchronizer-config-schema.yaml')
+observer_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../synchronizers/new_base")
+
+sys.path.append(synchronizer_path)
+mod = importlib.import_module("xos-synchronizer")
+mod.main()
+

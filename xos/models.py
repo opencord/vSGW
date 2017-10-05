@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,65 +12,83 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from models_decl import VSGWCService_decl
+from models_decl import VSGWCVendor_decl
+from models_decl import VSGWCTenant_decl
 
-# models.py -  vSGW Models
-
-from core.models import Service, TenantWithContainer, Image
+from django.db import models
+from core.models import Service, XOSBase, Slice, Instance, ServiceInstance, TenantWithContainer, Node, Image, User, Flavor, NetworkParameter, NetworkParameterType, Port, AddressPool
+import os
 from django.db import models, transaction
+from django.forms.models import model_to_dict
+from django.db.models import *
+from operator import itemgetter, attrgetter, methodcaller
+from core.models import Tag
+from core.models.service import LeastLoadedNodeScheduler
+import traceback
+from xos.exceptions import *
 
-MCORD_KIND = 'EPC'
-
-SERVICE_NAME = 'vsgw'
-SERVICE_NAME_VERBOSE = 'Virtual SGW Service'
-SERVICE_NAME_VERBOSE_PLURAL = 'Virtual SGW Services'
-TENANT_NAME_VERBOSE = 'Virtual SGW Tenant'
-TENANT_NAME_VERBOSE_PLURAL = 'Virtual SGW Tenants'
-
-class VSGWService(Service):
-
-    KIND = SERVICE_NAME
-
-    class Meta:
+class VSGWCService(VSGWCService_decl):
+   class Meta:
         proxy = True
-        app_label = SERVICE_NAME
-        verbose_name = SERVICE_NAME_VERBOSE
 
-class VSGWTenant(TenantWithContainer):
+   def create_tenant(self, **kwargs):
+       t = VSGWCTenant(kind="vEPC", provider_service=self, connect_method="na", **kwargs)
+       t.save()
+       return t
 
-    KIND = SERVICE_NAME
+class VSGWCVendor(VSGWCVendor_decl):
+   class Meta:
+        proxy = True
 
-    class Meta:
-        verbose_name = TENANT_NAME_VERBOSE
+class VSGWCTenant(VSGWCTenant_decl):
+   class Meta:
+        proxy = True
 
-    tenant_message = models.CharField(max_length=254, help_text="Tenant Message to Display")
-    image_name = models.CharField(max_length=254, help_text="Name of VM image")
+   def __init__(self, *args, **kwargs):
+       vsgwcservice = VSGWCService.get_service_objects().all()
+       if vsgwcservice:
+           self._meta.get_field(
+                   "provider_service").default = vsgwcservice[0].id
+       super(VSGWCTenant, self).__init__(*args, **kwargs)
 
-    def __init__(self, *args, **kwargs):
-        vsgw_service = VSGWService.get_service_objects().all()
-        if vsgw_service:
-            self._meta.get_field('provider_service').default = vsgw_service[0].id
-        super(VSGWTenant, self).__init__(*args, **kwargs)
+   @property
+   def image(self):
+       if not self.vsgwc_vendor:
+           return super(VSGWCTenant, self).image
+       return self.vsgwc_vendor.image
 
-    def save(self, *args, **kwargs):
-        super(VSGWTenant, self).save(*args, **kwargs)
-        model_policy_vsgwtenant(self.pk)
+   def save_instance(self, instance):
+       if self.vsgwc_vendor:
+           instance.flavor = self.vsgwc_vendor.flavor
+       super(VSGWCTenant, self).save_instance(instance)
 
-    def delete(self, *args, **kwargs):
-        self.cleanup_container()
-        super(VSGWTenant, self).delete(*args, **kwargs)
+   def save(self, *args, **kwargs):
+       if not self.creator:
+           if not getattr(self, "caller", None):
+               raise XOSProgrammingError("VSGWCTenant's self.caller was not set")
+           self.creator = self.caller
+           if not self.creator:
+               raise XOSProgrammingError("VSGWCTenant's self.creator was not set")
 
-    @property
-    def image(self):
-        img = self.image_name.strip()
-        if img.lower() != "default":
-            return Image.objects.get(name=img)
-        else: 
-            return super(VSGWTenant, self).image
+       super(VSGWCTenant, self).save(*args, **kwargs)
+       # This call needs to happen so that an instance is created for this
+       # tenant is created in the slice. One instance is created per tenant.
+       model_policy_vsgwctenant(self.pk)
 
-def model_policy_vsgwtenant(pk):
+   def delete(self, *args, **kwargs):
+       # Delete the instance that was created for this tenant
+       self.cleanup_container()
+       super(VSGWCTenant, self).delete(*args, **kwargs)
+
+def model_policy_vsgwctenant(pk):
+    # This section of code is atomic to prevent race conditions
     with transaction.atomic():
-        tenant = VSGWTenant.objects.select_for_update().filter(pk=pk)
+        # We find all of the tenants that are waiting to update
+        tenant = VSGWCTenant.objects.select_for_update().filter(pk=pk)
         if not tenant:
             return
+        # Since this code is atomic it is safe to always use the first tenant
         tenant = tenant[0]
         tenant.manage_container()
+

@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-from services.vsgw.models import *
 from xosresource import XOSResource
+from core.models import Service, ServiceInstance
+from services.vsgwc.models import VSGWCTenant
 
-class XOSVSGWTenant(XOSResource):
-    provides = "tosca.nodes.VSGWTenant"
-    xos_model = VSGWTenant
+class XOSVSGWCTenant(XOSResource):
+    provides = "tosca.nodes.VSGWCTenant"
+    xos_model = VSGWCTenant
     name_field = "service_specific_id"
-    copyin_props = ("tenant_message", "image_name")
+    copyin_props = ()
 
     def get_xos_args(self, throw_exception=True):
-        args = super(XOSVSGWTenant, self).get_xos_args()
+        args = super(XOSVSGWCTenant, self).get_xos_args()
 
         # ExampleTenant must always have a provider_service
-        provider_name = self.get_requirement("tosca.relationships.MemberOfService", throw_exception=throw_exception)
+        provider_name = self.get_requirement("tosca.relationships.TenantOfService", throw_exception=throw_exception)
         if provider_name:
-            args["provider_service"] = self.get_xos_object(VSGWService, throw_exception=throw_exception, name=provider_name)
+            args["provider_service"] = self.get_xos_object(Service, throw_exception=throw_exception, name=provider_name)
 
         return args
 
     def get_existing_objs(self):
         args = self.get_xos_args(throw_exception=False)
-        return VSGWTenant.get_tenant_objects().filter(provider_service=args["provider_service"], service_specific_id=args["service_specific_id"])
+        return VSGWCTenant.get_tenant_objects().filter(provider_service=args["provider_service"], service_specific_id=args["service_specific_id"])
         return []
 
     def can_delete(self, obj):
-        return super(XOSVSGWTenant, self).can_delete(obj)
+        return super(XOSVSGWCTenant, self).can_delete(obj)
 

@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 tosca_definitions_version: tosca_simple_yaml_1_0
+
+# compile this with "m4 vsgwc.m4 > vsgwc.yaml"
 
 # include macros
 # Note: Tosca derived_from isn't working the way I think it should, it's not
@@ -27,11 +27,18 @@ tosca_definitions_version: tosca_simple_yaml_1_0
 
 # Subscriber
 
+
+
+
+# end m4 macros
+
+
+
 node_types:
-    tosca.nodes.VSGWService:
+    tosca.nodes.VSGWCService:
         derived_from: tosca.nodes.Root
         description: >
-            vSGW Service
+            VSGWC Service
         capabilities:
             scalable:
                 type: tosca.capabilities.Scalable
@@ -85,14 +92,11 @@ node_types:
                 type: string
                 required: false
                 description: Version number of Service.
-            service_message:
-                type: string
-                required: false
 
-    tosca.nodes.VSGWTenant:
+    tosca.nodes.VSGWCTenant:
         derived_from: tosca.nodes.Root
         description: >
-            A Tenant of the vsgw service
+            VSGWC Tenant
         properties:
             kind:
                 type: string
@@ -102,7 +106,33 @@ node_types:
                 type: string
                 required: false
                 description: Service specific ID opaque to XOS but meaningful to service
-            tenant_message:
+
+    tosca.nodes.VSGWCVendor:
+        derived_from: tosca.nodes.Root
+        description: >
+            VSGWC Vendor
+        properties:
+            no-delete:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to delete this object
+            no-create:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to create this object
+            no-update:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to update this object
+            replaces:
                 type: string
                 required: false
+                descrption: Replaces/renames this object
+            name:
+                type: string
+                required: true
+
+    tosca.relationships.VendorOfTenant:
+           derived_from: tosca.relationships.Root
+           valid_target_types: [ tosca.capabilities.xos.VSGWCTenant ]
 

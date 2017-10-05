@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 tosca_definitions_version: tosca_simple_yaml_1_0
 
-description: Onboard the vSGW
+description: Onboard the vsgwc
 
 imports:
    - custom_types/xos.yaml
 
 topology_template:
   node_templates:
-    servicecontroller#vsgw:
+    servicecontroller#vsgwc:
       type: tosca.nodes.ServiceController
       properties:
-          base_url: file:///opt/xos_services/vSGW/xos/
+          base_url: file:///opt/xos_services/vsgw/xos/
           # The following will concatenate with base_url automatically, if
           # base_url is non-null.
-          models: models.py
-          admin: admin.py
-          admin_template: templates/VSGWAdmin.html
+          xproto: ./
           synchronizer: synchronizer/manifest
-          synchronizer_run: vsgw-synchronizer.py
-          #tosca_custom_types: vsgw.yaml
-          tosca_resource: tosca/resources/vsgwtenant.py, tosca/resources/vsgwservice.py
-          #rest_service: api/service/vsgwservice.py
-          #rest_tenant: api/tenant/vsgwtenant.py
-          private_key: file:///opt/xos/key_import/vSGW_rsa
-          public_key: file:///opt/xos/key_import/vSGW_rsa.pub
+          synchronizer_run: vsgwc-synchronizer.py
+          tosca_custom_types: tosca/custom_types/vsgwc.yaml
+          tosca_resource: tosca/resources/vsgwctenant.py, tosca/resources/vsgwcservice.py, tosca/resources/vsgwcvendor.py
+          private_key: file:///opt/xos/key_import/mcord_rsa
+          public_key: file:///opt/xos/key_import/mcord_rsa.pub
 

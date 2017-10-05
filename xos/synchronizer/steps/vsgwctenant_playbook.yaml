@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 ---
 - hosts: {{ instance_name }}
+  gather_facts: True
   connection: ssh
   user: ubuntu
-  become: yes
-  gather_facts: no
-  tasks:
-
+  sudo: yes
   vars:
-    - tenant_message: "{{ tenant_message }}"
-  
-#  - name: Write message
-#    shell: echo "{{ tenant_message }}" > /var/tmp/index.html
-#
-#  - name: setup s1u interface config
-#    shell: ./start_3gpp_int.sh eth1 {{ s1u_sgw_tag }} {{ s1u_sgw_ip }}/24
-#
-#  - name: setup s11 interface config
-#    shell: ./start_3gpp_int.sh eth2 {{ s11_sgw_tag }} {{ s11_sgw_ip }}/24
-#
-#  - name: setup s5s8 interface config
-#    shell: ./start_3gpp_int.sh eth3 {{ s5s8_sgw_tag }} {{ s5s8_sgw_ip }}/24
-  
-#  roles:
-#    - install_apache
-#    - create_index
+    - sgwc_shared_ip: {{ sgwc_shared_ip }}
+    - mme_shared_ip: {{ mme_shared_ip }}
+    - sgwu_shared_ip: {{ sgwu_shared_ip }}
+  roles:
+    - ngic_config
 

@@ -1,0 +1,38 @@
+# Copyright 2017-present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+option name = "vSGWC";
+option verbose_name = "Virtual Serving Gateway -- Control Plane";
+option app_label = "vsgwc";
+option kind = "vEPC";
+option legacy = "True";
+
+message VSGWCService (Service){
+    option name = "vsgwcservice";
+    option verbose_name = "Virtual Serving Gateway -- Control Plane Service";
+}
+
+message VSGWCVendor (XOSBase){
+    option name = "vsgwcvendor";
+    option verbose_name = "Virtual Serving Gateway -- Control Plane Vendor";
+    required string name = 1 [help_text = "vendor name", max_length = 32, null = False, db_index = False, blank = False];
+    required manytoone image->Image:+ = 2 [help_text = "select image for this vendor", db_index = True, null = False, blank = False];
+    required manytoone flavor->Flavor:+ = 3 [help_text = "select openstack flavor for vendor image", db_index = True, null = False, blank = False];
+}
+
+message VSGWCTenant (TenantWithContainer){
+    option name = "vsgwcserviceinstance";
+    option verbose_name = "Virtual Serving Gateway -- Control Plane ServiceInstance";
+    optional manytoone vsgwc_vendor->VSGWCVendor:vendor_tenants = 1 [help_text = "select vendor of choice, leave blank for slice default", db_index = True, null = True, blank = True];
+}

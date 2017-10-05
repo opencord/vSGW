@@ -1,8 +1,0 @@
-model-deps
-manifest
-run.sh
-stop.sh
-vsgw-synchronizer.py
-vsgw_config
-steps/sync_vsgw.py
-steps/sync_vsgw.yaml

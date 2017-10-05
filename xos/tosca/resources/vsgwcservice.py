@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,5 +13,11 @@
 # limitations under the License.
 
 
-# Kill the observer
-pkill -9 -f vsgw-synchronizer.py
+from service import XOSService
+from services.vsgwc.models import VSGWCService
+
+class XOSVSGWCService(XOSService):
+    provides = "tosca.nodes.VSGWCService"
+    xos_model = VSGWCService
+    copyin_props = ["view_url", "icon_url", "enabled", "published", "public_key", "private_key_fn", "versionNumber"]
+

@@ -12,5 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#! /bin/bash
-find synchronizer -type f | cut -b 14- > synchronizer/manifest
+python vsgwc-synchronizer.py

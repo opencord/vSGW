@@ -12,5 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#! /bin/bash
-find synchronizer -type f | cut -b 14- > synchronizer/manifest
+---
+- name: create config directory for cp_config file
+  file:
+    path: /var/tmp/config
+    state: directory
+    mode: 0755
+
+- name: save control plane configuration information in vSGWC VM
+  template:
+    src=cp_config.cfg.j2
+    dest=/var/tmp/config/cp_config.cfg
